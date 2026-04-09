@@ -13,7 +13,7 @@
                 </el-icon>
                 <router-link :to="{
                     path: item.meta?.path as string
-                }"><span class="text">{{ item.meta?.title }}</span> 
+                }"><span>{{ item.meta?.title }}</span> 
                 </router-link>
                 <el-icon size="14" class="close-icon" color="black" @click.stop="closeTag(item, index)">
                     <Close />
@@ -60,7 +60,26 @@
 
     //tag关闭
     const closeTag = (item: any, index: number) => {
-        router.push('/auth')
+        if(route.path!==item.meta?.path){
+            return;
+        }else{
+           if(selectMenu.length!=0){
+                if(index==selectMenu.length-1){
+                    if(index==0){
+                        closeMenu(index);
+                        router.push('/')
+                    }else {
+                       closeMenu(index);
+                       router.push(selectMenu[index-1]?.meta?.path as string)
+                    }
+                }else{
+                  router.push(selectMenu[index+1]?.meta?.path as string)
+
+                  closeMenu(index);
+                }
+           }
+          
+        }
 
     }
 
@@ -100,10 +119,11 @@
                 align-items: center;
                 justify-content: center;
 
-                .text {
-                    line-height: 1;
-                    white-space: nowrap;
+                a {
+                    text-decoration: none;
+                    color: black;
                 }
+                
 
                 .close-icon {
                     cursor: pointer;

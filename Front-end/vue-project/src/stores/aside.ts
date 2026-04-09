@@ -23,7 +23,7 @@ export const useAsideStore = defineStore('isCollapse', {
 
     closeMenu(index: number) {
       console.log(index);
-      //this.selectMenu.splice(index, 1);
+      this.selectMenu.splice(index, 1);
     }
 
   }
