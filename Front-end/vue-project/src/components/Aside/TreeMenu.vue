@@ -24,12 +24,18 @@
 <script setup lang="ts">
      import { useRouter } from 'vue-router'
      import {type MenuItem} from "@/types/user"
+     import { useAsideStore } from '@/stores/aside'
+     const asideStore = useAsideStore();
+     const{addMenu}=asideStore
      const router = useRouter()
-     //侧边栏路由跳转
+  
     const handleClick = (item: MenuItem): void => {
+    //侧边栏路由跳转
      if (item.meta?.path) {
        router.push(item.meta.path)
      }
+     //添加侧边栏菜单信息
+     addMenu(item)
     }
     
     defineProps<{
