@@ -60,19 +60,24 @@
 
     //tag关闭
     const closeTag = (item: any, index: number) => {
+        // 判断当前关闭的tag是否是当前路由
         if(route.path!==item.meta?.path){
             return;
         }else{
+            //判断当前tag位置
            if(selectMenu.length!=0){
                 if(index==selectMenu.length-1){
+                    // 判断当前tag是否是最后一个
                     if(index==0){
                         closeMenu(index);
                         router.push('/')
                     }else {
+                        //判断当前tag是否为末尾,向前跳
                        closeMenu(index);
                        router.push(selectMenu[index-1]?.meta?.path as string)
                     }
                 }else{
+                    //当前tag在中间向后跳
                   router.push(selectMenu[index+1]?.meta?.path as string)
 
                   closeMenu(index);
