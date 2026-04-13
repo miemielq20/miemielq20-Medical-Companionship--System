@@ -9,9 +9,9 @@
       <div class="jump-link">
         <el-link type="primary" @click="handChange()">{{ formType ? '返回登录' : '注册账号' }}</el-link>
       </div>
-      <el-form :model="userForm" class="userForm" :rules="rules">
+      <el-form :model="loginForm" class="userForm" :rules="rules">
         <el-form-item prop="username">
-          <el-input v-model="userForm.username" placeholder="手机号">
+          <el-input v-model="loginForm.username" placeholder="手机号">
             <template #prefix>
               <el-icon class="el-input__icon">
                 <UserFilled />
@@ -20,7 +20,7 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="userForm.password" type="password" show-password placeholder="密码">
+          <el-input v-model="loginForm.password" type="password" show-password placeholder="密码">
             <template #prefix>
               <el-icon>
                 <Lock />
@@ -28,19 +28,19 @@
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item prop="code">
-          <el-input v-model="userForm.code" placeholder="验证码">
+        <el-form-item prop="code" v-if="formType">
+          <el-input v-model="loginForm.code" placeholder="验证码">
             <template #prefix>
               <el-icon>
                 <Lock />
               </el-icon>
             </template>
-            <template #append><span @click="getCode">
-                {{ cutdown.text }}
+            <template #append><span @click="countdownChange">
+                {{ countdown.text }}
               </span></template>
           </el-input>
         </el-form-item>
-        <el-form-item v-if="userForm">
+        <el-form-item >
           <el-button type="primary" class="login-btn">
             {{formType?"注册账号":"登录"  }}
           </el-button>
@@ -59,7 +59,7 @@
   }
 
   .login-card {
-    max-width: 430px;
+    max-width: 480px;
     width: 100%;
 
     // 移除header的padding和边框
@@ -109,6 +109,8 @@
 
   import { reactive, ref } from 'vue'
   import type { FormRules } from 'element-plus'
+  import {getCode} from '@/api/index'
+
 
   const imgUrl = '/image/login-bg.jpeg'
   const formType = ref(0)
@@ -118,7 +120,7 @@
     formType.value = formType.value ? 0 : 1
   }
 
-  const userForm = reactive({
+  const loginForm = reactive({
     username: '',
     password: '',
     code: ''
@@ -144,26 +146,25 @@
   }
 
   //校验
-  const rules = reactive<FormRules<typeof userForm>>({
+  const rules = reactive<FormRules<typeof loginForm>>({
      username: [{ validator: validateUsername, trigger: 'blur' }],
      password: [{ validator: validatePassword, trigger: 'blur' }],
+     code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
 })
 
 
- 
-
-  const cutdown = reactive({
+  const countdown = reactive({
     text: '获取验证码',
     time: 60
   })
 
   const flag = ref(true)
   //获取验证码
-  const getCode = () => {
+  const countdownChange = () => {
 
     if (!flag.value) return
-    flag.value = false
-    if (!userForm.username || !phoneReg.test(userForm.username)) {
+  
+    if (!loginForm.username || !phoneReg.test(loginForm.username)) {
       return ElMessage({
         message: '请输入正确的手机号格式',
         type: 'warning',
@@ -171,16 +172,27 @@
 
     }
     setInterval(() => {
-      if (cutdown.time <= 0) {
-        flag.value = true
-        cutdown.text = '获取验证码'
-        cutdown.time = 60
+      if (countdown.time <= 0) {
+        countdown.text = '获取验证码'
+        countdown.time = 60
         flag.value = true
       } else {
-        cutdown.time--
-        cutdown.text = cutdown.time + 's'
+        countdown.time--
+        countdown.text = countdown.time + 's'
         console.log('获取验证码')
       }
     }, 1000)
+      flag.value = false
+      //发送验证码
+      getCode({
+        tel: loginForm.username
+      }).then(res => { 
+        if(res.data.code === 20000) {
+          ElMessage.success('验证码发送成功')
+        } else {
+          ElMessage.error(res.data.msg || '验证码发送失败')
+          flag.value = true
+        }
+      })
   }
 </script>

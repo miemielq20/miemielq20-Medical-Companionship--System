@@ -70,7 +70,7 @@
                     // 判断当前tag是否是最后一个
                     if(index==0){
                         closeMenu(index);
-                        router.push('/')
+                        router.push('/login')
                     }else {
                         //判断当前tag是否为末尾,向前跳
                        closeMenu(index);
