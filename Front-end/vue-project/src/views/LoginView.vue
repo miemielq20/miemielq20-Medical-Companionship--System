@@ -7,11 +7,11 @@
         </div>
       </template>
       <div class="jump-link">
-        <el-link type="primary" @click="handChange()">{{ formType ? '返回登录' : '注册登录' }}</el-link>
+        <el-link type="primary" @click="handChange()">{{ formType ? '返回登录' : '注册账号' }}</el-link>
       </div>
-      <el-form v-model="userForm" class="userForm">
-        <el-form-item prop="userName">
-          <el-input v-model="userForm.username" placeholder="手机号" >
+      <el-form :model="userForm" class="userForm" :rules="rules">
+        <el-form-item prop="username">
+          <el-input v-model="userForm.username" placeholder="手机号">
             <template #prefix>
               <el-icon class="el-input__icon">
                 <UserFilled />
@@ -20,7 +20,7 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="userForm.password" type="password" show-password placeholder="密码" >
+          <el-input v-model="userForm.password" type="password" show-password placeholder="密码">
             <template #prefix>
               <el-icon>
                 <Lock />
@@ -29,18 +29,20 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="code">
-          <el-input v-model="userForm.code" placeholder="验证码" >
+          <el-input v-model="userForm.code" placeholder="验证码">
             <template #prefix>
               <el-icon>
                 <Lock />
               </el-icon>
             </template>
-              <template #append>获取验证码</template>
+            <template #append><span @click="getCode">
+                {{ cutdown.text }}
+              </span></template>
           </el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-if="userForm">
           <el-button type="primary" class="login-btn">
-            注册账号
+            {{formType?"注册账号":"登录"  }}
           </el-button>
         </el-form-item>
       </el-form>
@@ -92,6 +94,7 @@
       .login-btn {
         width: 100%;
       }
+
       .code-btn {
         width: 30%;
       }
@@ -103,12 +106,14 @@
 </style>
 
 <script setup lang="ts">
+
   import { reactive, ref } from 'vue'
-  import type { FormInstance, FormRules } from 'element-plus'
+  import type { FormRules } from 'element-plus'
+
   const imgUrl = '/image/login-bg.jpeg'
   const formType = ref(0)
 
- 
+
   const handChange = () => {
     formType.value = formType.value ? 0 : 1
   }
@@ -118,4 +123,64 @@
     password: '',
     code: ''
   })
+
+  // 正则
+  const phoneReg = /^1[3-9]\d{9}$/;
+  const passwordReg = /^.{6,20}$/;
+  const validateUsername = (rule: any, value: string, callback: any) => {
+    if (!phoneReg.test(value)) {
+      callback(new Error('请输入正确的手机号码'))
+    } else {
+      callback()
+    }
+  }
+
+  const validatePassword = (rule: any, value: string, callback: any) => {
+    if (!passwordReg.test(value)) {
+      callback(new Error('密码不能少于6位'))
+    } else {
+      callback()
+    }
+  }
+
+  //校验
+  const rules = reactive<FormRules<typeof userForm>>({
+     username: [{ validator: validateUsername, trigger: 'blur' }],
+     password: [{ validator: validatePassword, trigger: 'blur' }],
+})
+
+
+ 
+
+  const cutdown = reactive({
+    text: '获取验证码',
+    time: 60
+  })
+
+  const flag = ref(true)
+  //获取验证码
+  const getCode = () => {
+
+    if (!flag.value) return
+    flag.value = false
+    if (!userForm.username || !phoneReg.test(userForm.username)) {
+      return ElMessage({
+        message: '请输入正确的手机号格式',
+        type: 'warning',
+      })
+
+    }
+    setInterval(() => {
+      if (cutdown.time <= 0) {
+        flag.value = true
+        cutdown.text = '获取验证码'
+        cutdown.time = 60
+        flag.value = true
+      } else {
+        cutdown.time--
+        cutdown.text = cutdown.time + 's'
+        console.log('获取验证码')
+      }
+    }, 1000)
+  }
 </script>
