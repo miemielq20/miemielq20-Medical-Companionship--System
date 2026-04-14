@@ -12,7 +12,7 @@ http.interceptors.request.use(function (config) {
     const token = localStorage.getItem('token');
     const whiteUrls=['/get/code','/user/authentication','/login']
     if(token&&!whiteUrls.includes(config.url as string)){
-        config.headers['X-token']=token
+        config.headers['x-token']=token
     }
     return config;
 
