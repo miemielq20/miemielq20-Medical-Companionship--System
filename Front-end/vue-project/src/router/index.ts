@@ -7,17 +7,19 @@ import Menu from '@/views/auth/menu/index.vue'
 import Companion from '@/views/vppz/companion/index.vue'
 import Order from '@/views/vppz/order/index.vue'
 
+
 const routes: RouteRecordRaw[] = [
 
   {
     path: '/',
     name: 'layout',
     component: Layout,
+    meta: { requiresAuth: true },
     children: [
       {
         path: "dashboard",
         name: 'dashboard',
-        meta: { id: '1', icon: 'Platform', path: '/dashboard', title: '控制台' },
+        meta: { id: '1', icon: 'Platform', path: '/dashboard', title: '控制台'  },
         component: Dashboard,
       },
       {
@@ -65,6 +67,7 @@ const routes: RouteRecordRaw[] = [
     path: '/login',
     name: 'login',
     component: LoginView,
+    meta: { requiresAuth: false }
   },
 
 ]

@@ -6,6 +6,28 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import App from './App.vue'
 import router from './router'
 
+//路由守卫
+router.beforeEach((to, from) => {
+  const token = localStorage.getItem('token')
+
+  // 如果需要认证，但没 token，跳转到登录页
+  if (to.meta.requiresAuth && !token) {
+    console.log('没有 token')
+    return {
+      path: '/login',
+    }
+  }else{
+    if(token && to.path==='/login'){
+      return {
+        path: '/',
+      }
+    }
+  }
+
+  // 其他情况放行
+  return true
+})
+
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)

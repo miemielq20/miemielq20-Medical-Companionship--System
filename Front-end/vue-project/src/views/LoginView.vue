@@ -110,12 +110,13 @@
   import { reactive, ref } from 'vue'
   import type { FormRules,FormInstance } from 'element-plus'
   import {getCode,userAuthentication,login} from '@/api/index'
-
+  import {useRouter} from 'vue-router'
 
 
   const imgUrl = '/image/login-bg.jpeg'
   const formType = ref(0)
   const ruleFormRef = ref<FormInstance>()
+  const router =useRouter()
 
 
   const handChange = () => {
@@ -207,23 +208,24 @@
           userAuthentication(loginForm).then(res => {
             if(res.data.code === 10000) {
               ElMessage.success('注册成功')
-              handChange()
+              formType.value=0
             } else {
-            //登录
-            login(loginForm).then(res => {
-              if(res.data.code === 20000) {
-                ElMessage.success('登录成功')
-                window.localStorage.setItem('token',res.data.data.token)
-                window.localStorage.setItem('userInfo',JSON.stringify(res.data.data.userInfo))
-              } else {
-                ElMessage.error(res.data.msg || '登录失败')
-              }
-            })
+              ElMessage.error(res.data.msg )
             }
           })
         } else {
           //登录
-          login(loginForm).then(res => {})
+         login(loginForm).then(res => {
+              if(res.data.code === 10000) {
+                ElMessage.success('登录成功')
+                console.log(res.data.data.token)
+                window.localStorage.setItem('token',res.data.data.token)
+                window.localStorage.setItem('userInfo',JSON.stringify(res.data.data.userInfo))
+                router.push('/')
+              } else {
+                ElMessage.error(res.data.msg )
+              }
+            })
         }
     } else {
       console.log('error submit!', fields)

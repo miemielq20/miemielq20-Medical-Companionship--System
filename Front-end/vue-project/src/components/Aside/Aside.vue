@@ -23,7 +23,6 @@
     return AsideStore.asideCollapse
   })
 
-  console.log(AsideStore.asideCollapse)
   const router = useRouter()
   import { computed } from 'vue'
   

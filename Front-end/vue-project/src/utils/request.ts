@@ -25,6 +25,11 @@ http.interceptors.request.use(function (config) {
 http.interceptors.response.use(function (response) {
     if(response.data.code==-1){
         ElMessage.error(response.data.msg)
+    }else if(response.data.code==-2){
+        ElMessage.error(response.data.msg)
+        localStorage.removeItem('token')
+        localStorage.removeItem('userInfo')
+        window.location.href='/'
     }
     return response;
   }, function (error) {
