@@ -44,12 +44,16 @@
     import { useRouter } from "vue-router";
     import { computed } from "vue";
     import { useRoute } from "vue-router";
+    import { onMounted } from "vue";
+
     const route = useRoute();
     const router = useRouter();
     const asideStore = useAsideStore();
 
     const { selectMenu, isCollapse, closeMenu } = asideStore;
+    
 
+    // 切换侧边栏
     const toggleAside = () => {
         isCollapse();
     };

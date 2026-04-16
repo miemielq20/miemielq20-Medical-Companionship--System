@@ -13,10 +13,22 @@ interface LoginRequest {
   validCode?: string
 }
 
+// 菜单请求参数类型
 interface menuRequest{
   id:number,
   name:string,
   permissions:string
+}
+
+// 获取用户信息请求参数类型
+interface autAdminRequest{
+  pageNum:string,
+  pageSize:string,
+}
+
+interface menuListRequest{
+   pageNum:number,
+   pageSize:number,
 }
 // 发送验证码
 export const getCode = (data: CodeRequest) => {
@@ -43,4 +55,19 @@ export const userGetMenu=()=>{
 //用户权限修改
 export const userSetmenu=(data:menuRequest)=>{
   return http.post('/user/setMenu',data)
+}
+
+//账号管理
+export const authAdmin=(params:autAdminRequest)=>{
+  return http.get('/auth/admin',{params})
+}
+
+//菜单权限下拉
+export const menuSelectlist=()=>{
+  return http.get('/menu/selectlist')
+}
+
+//菜单权限列表
+export const menuList=(params:menuListRequest)=>{
+  return http.get('/menu/list',{params})
 }
