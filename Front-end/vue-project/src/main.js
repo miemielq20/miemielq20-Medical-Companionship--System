@@ -6,6 +6,8 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import App from './App.vue'
 import router from './router'
 
+import PanelHead from "@/components/panel/PanelHead.vue"
+
 //路由守卫
 router.beforeEach((to, from) => {
   const token = localStorage.getItem('token')
@@ -32,6 +34,9 @@ const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
+
+//注册组件
+app.component('PanelHead', PanelHead)
 
 app.use(createPinia())
 app.use(router)

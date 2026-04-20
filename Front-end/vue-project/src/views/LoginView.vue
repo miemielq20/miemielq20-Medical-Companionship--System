@@ -10,7 +10,7 @@
         <el-link type="primary" @click="handChange()">{{ formType ? '返回登录' : '注册账号' }}</el-link>
       </div>
       <el-form :model="loginForm" class="userForm" :rules="rules" ref="ruleFormRef">
-        <el-form-item prop="username">
+        <el-form-item prop="userName">
           <el-input v-model="loginForm.userName" placeholder="手机号">
             <template #prefix>
               <el-icon class="el-input__icon">
@@ -19,7 +19,7 @@
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item prop="password">
+        <el-form-item prop="passWord">
           <el-input v-model="loginForm.passWord" type="password" show-password placeholder="密码">
             <template #prefix>
               <el-icon>
@@ -28,7 +28,7 @@
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item prop="code" v-if="formType">
+        <el-form-item prop="validCode" v-if="formType">
           <el-input v-model="loginForm.validCode" placeholder="验证码">
             <template #prefix>
               <el-icon>
@@ -228,7 +228,7 @@
             })
         }
     } else {
-      console.log('error submit!', fields)
+        ElMessage.error('请输入正确的格式' )
     }
   })
 }

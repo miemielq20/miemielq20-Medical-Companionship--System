@@ -22,14 +22,11 @@ interface menuRequest{
 
 // 获取用户信息请求参数类型
 interface autAdminRequest{
-  pageNum:string,
-  pageSize:string,
+  pageNum:number,
+  pageSize:number,
 }
 
-interface menuListRequest{
-   pageNum:number,
-   pageSize:number,
-}
+interface menuListRequest extends autAdminRequest {}
 // 发送验证码
 export const getCode = (data: CodeRequest) => {
   return http.post('/get/code', data)

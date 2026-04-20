@@ -1,4 +1,5 @@
 <template>
+    <panel-head />
     <div class="bts-into">
         <el-button type="primary" @click="open" :icon="Plus">添加 </el-button>
     </div>
@@ -17,7 +18,7 @@
     <div class="pagination-into">
         <el-pagination v-model:current-page="paginnationData.pageNum" :page-size="paginnationData.pageSize"
             layout="total, prev, pager, next" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-            :total="tableData.total"  />
+            :total="tableData.total" />
     </div>
 
     <el-dialog v-model="dialogTableVisible" :before-close="beforeClose" width="30%">
@@ -45,7 +46,9 @@
     import { userGetMenu, userSetmenu, menuList, } from '@/api/index'
     import { onMounted } from 'vue'
     import { type FormInstance } from 'element-plus'
-    import {Plus} from '@element-plus/icons-vue'
+    import { Plus } from '@element-plus/icons-vue'
+
+    import PanelHead from '@/components/panel/PanelHead.vue'
 
     // 弹窗
     const dialogTableVisible = ref(false)
@@ -145,13 +148,14 @@
 </script>
 
 <style lang="less">
-    .pagination-into{
+    .pagination-into {
         width: 100%;
         background-color: white;
         display: flex;
         justify-content: flex-end;
     }
-    .bts-into{
+
+    .bts-into {
         width: 100%;
         background-color: white;
         display: flex;
