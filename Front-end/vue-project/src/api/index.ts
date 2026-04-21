@@ -26,6 +26,11 @@ interface autAdminRequest{
   pageSize:number,
 }
 
+interface updateUserRequest {
+  name: string
+  permissions_id: number
+}
+
 interface menuListRequest extends autAdminRequest {}
 // 发送验证码
 export const getCode = (data: CodeRequest) => {
@@ -67,4 +72,9 @@ export const menuSelectlist=()=>{
 //菜单权限列表
 export const menuList=(params:menuListRequest)=>{
   return http.get('/menu/list',{params})
+}
+
+//菜单权限添加
+export const updateUser=(data:updateUserRequest)=>{
+  return http.post('/update/user',data)
 }

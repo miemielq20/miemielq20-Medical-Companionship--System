@@ -45,20 +45,26 @@
     import { reactive, ref, nextTick } from 'vue'
     import { userGetMenu, userSetmenu, menuList, } from '@/api/index'
     import { onMounted } from 'vue'
-    import { type FormInstance } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
+
+    import { type FormInstance } from 'element-plus'
+    import { type MenuGroup,type MenuList } from '@/types/menu'
 
     import PanelHead from '@/components/panel/PanelHead.vue'
 
     // 弹窗
     const dialogTableVisible = ref(false)
+
+    //权限菜单数据
     const form = reactive({
         name: '',
         permissions: '',
         id: 0
     })
 
-    const permissionData = ref([])
+    // 权限窗口菜单结构
+    const permissionData =  ref<MenuGroup[]>([]);
+
     const treeRef = ref()
     const formRef = ref()
 
@@ -81,7 +87,7 @@
 
     // 列表数据
     const tableData = reactive({
-        list: [],
+        list: <MenuList[]>([]),
         total: 0
     })
 
@@ -134,6 +140,7 @@
     //权限提交
     const confirm = async (formEl: FormInstance | undefined) => {
         if (!formEl) return
+        // 校验
         await formEl.validate(async (valid, fields) => {
             if (valid) {
                 const checkedKeys = JSON.stringify(treeRef.value.getCheckedKeys())

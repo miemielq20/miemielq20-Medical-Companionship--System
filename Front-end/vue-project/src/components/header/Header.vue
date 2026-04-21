@@ -24,14 +24,14 @@
 
         </ul>
         <div class="header-right">
-            <el-dropdown>
+            <el-dropdown  @command="handleCommand">
                 <span class="el-dropdown-link">
                     <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
                     <div class="username"><span>admin</span></div>
                 </span>
-                <template #dropdown>
+                <template #dropdown >
                     <el-dropdown-menu>
-                        <el-dropdown-item> 退出</el-dropdown-item>
+                        <el-dropdown-item command="logout"  > 退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -83,7 +83,6 @@
                 }else{
                     //当前tag在中间向后跳
                   router.push(selectMenu[index+1]?.meta?.path as string)
-
                   closeMenu(index);
                 }
            }
@@ -91,6 +90,16 @@
         }
 
     }
+
+    //登出
+    const handleCommand = (command: string) => {
+        if (command === "logout") {
+            console.log("logout");
+            localStorage.removeItem("token");
+            localStorage.removeItem("userInfo");
+            window.location.hash = "/";
+        }
+    };
 
 
 </script>

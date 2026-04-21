@@ -5,7 +5,7 @@ export const useAsideStore = defineStore('isCollapse', {
   state: () => {
     return {
       asideCollapse: false,
-      selectMenu: [] as MenuItem[]
+      selectMenu: <MenuItem[]>([])
     }
   },
   actions: {
