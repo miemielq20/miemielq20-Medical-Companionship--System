@@ -14,20 +14,21 @@
 <script lang="ts" setup>
 
   import { useRouter } from 'vue-router'
-  import TreeMenu from '@/components/Aside/TreeMenu.vue'
+  import TreeMenu from '@/components/aside/TreeMenu.vue'
   import { useAsideStore } from '@/stores/aside'
+  import { useRouterStore } from '@/stores/router'
   const AsideStore = useAsideStore()
+  const RouterStore = useRouterStore()
 
   //侧边栏状态
   const  isCollapse = computed(() => {
     return AsideStore.asideCollapse
   })
 
-  const router = useRouter()
   import { computed } from 'vue'
   
-  // 侧边栏菜单routes配置信息
-  const AsideMenu = computed(() => router.options.routes[0]?.children || [])
+  // 侧边栏菜单 - 从store中获取动态路由
+  const AsideMenu = computed(() => RouterStore.routerList)
 
 </script>
 <style lang="less">

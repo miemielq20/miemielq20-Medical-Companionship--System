@@ -18,8 +18,20 @@ export default defineConfig({
     }),
     Components({
       resolvers: [ElementPlusResolver()],
-    }),
+    }), 
+    
   ],
+
+  server: {
+     historyApiFallback: true,
+      proxy: {
+      '/api': {
+        target: 'http://localhost:5173',
+        changeOrigin: true
+      }
+    }
+  },
+  
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

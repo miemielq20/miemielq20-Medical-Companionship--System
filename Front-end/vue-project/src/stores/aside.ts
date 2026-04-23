@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { type MenuItem } from '../types/user'
+import { type MenuItem } from '@/types/user'
 
 export const useAsideStore = defineStore('isCollapse', {
   state: () => {
@@ -17,7 +17,7 @@ export const useAsideStore = defineStore('isCollapse', {
     // 添加菜单
     addMenu(payload: MenuItem) {
       // 判断当前菜单是否已存在
-      const existItem = this.selectMenu.find(item => item.path === payload.path);
+      const existItem = this.selectMenu.find(item => item.name === payload.name);
       if (existItem) {
         return;
       } else {

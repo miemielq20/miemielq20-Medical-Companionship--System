@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 
+
 const http=axios.create({
   baseURL: 'https://v3pz.itndedu.com/v3pz',
   timeout: 10000,
@@ -31,6 +32,7 @@ http.interceptors.response.use(function (response) {
         ElMessage.error(response.data.msg)
         localStorage.removeItem('token')
         localStorage.removeItem('userInfo')
+        localStorage.removeItem('RouterList')
         window.location.href='/'
     }
     return response;

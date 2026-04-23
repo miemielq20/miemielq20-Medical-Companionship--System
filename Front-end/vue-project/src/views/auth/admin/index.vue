@@ -141,21 +141,19 @@
         if (rowData) {
             Object.assign(form, {
                 name: rowData.name,
-                permission_id: rowData.permissions_id, 
+                permissions_id: rowData.permissions_id, 
                 mobile: rowData.mobile
             })
         }
     }
     // 关闭弹窗
     const beforeClose = () => {
-         // 重置表单
-        formRef.value.resetFields()
         dialogTableVisible.value = false
     }
 
     const rulers = { 
         name:[{required: true, message: '请输入昵称', trigger: 'blur'}],
-        permission_id:[{required: true, message: '请选择权限', trigger: 'blur'}]
+        permissions_id:[{required: true, message: '请选择权限', trigger: 'blur'}]  // 修正字段名
     }
 
      //权限提交

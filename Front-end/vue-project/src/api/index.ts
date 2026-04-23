@@ -1,37 +1,7 @@
 import http from '@/utils/request'
+import {type CodeRequest,type LoginRequest, type MenuRequest, type MenuListRequest,type AutAdminRequest,type UpdateUserRequest,type MenuItem } from '@/types/user'
 
 
-// 验证码请求参数类型
-interface CodeRequest {
-  tel: string
-}
-
-// 登录请求参数类型
-interface LoginRequest {
-  userName: string
-  passWord: string
-  validCode?: string
-}
-
-// 菜单请求参数类型
-interface menuRequest{
-  id:number,
-  name:string,
-  permissions:string
-}
-
-// 获取用户信息请求参数类型
-interface autAdminRequest{
-  pageNum:number,
-  pageSize:number,
-}
-
-interface updateUserRequest {
-  name: string
-  permissions_id: number
-}
-
-interface menuListRequest extends autAdminRequest {}
 // 发送验证码
 export const getCode = (data: CodeRequest) => {
   return http.post('/get/code', data)
@@ -55,12 +25,12 @@ export const userGetMenu=()=>{
 }
 
 //用户权限修改
-export const userSetmenu=(data:menuRequest)=>{
+export const userSetmenu=(data:MenuRequest)=>{
   return http.post('/user/setMenu',data)
 }
 
 //账号管理
-export const authAdmin=(params:autAdminRequest)=>{
+export const authAdmin=(params:AutAdminRequest)=>{
   return http.get('/auth/admin',{params})
 }
 
@@ -70,11 +40,16 @@ export const menuSelectlist=()=>{
 }
 
 //菜单权限列表
-export const menuList=(params:menuListRequest)=>{
+export const menuList=(params:MenuListRequest)=>{
   return http.get('/menu/list',{params})
 }
 
 //菜单权限添加
-export const updateUser=(data:updateUserRequest)=>{
+export const updateUser=(data:UpdateUserRequest)=>{
   return http.post('/update/user',data)
+}
+
+//
+export const menuPermissions=()=>{
+  return http.get(`/menu/permissions`)
 }

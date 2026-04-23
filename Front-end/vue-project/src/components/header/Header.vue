@@ -13,12 +13,11 @@
                 </el-icon>
                 <router-link :to="{
                     path: item.meta?.path as string
-                }"><span>{{ item.meta?.title }}</span> 
+                }"><span>{{ item.meta?.name }}</span> 
                 </router-link>
                 <el-icon size="14" class="close-icon" color="black" @click.stop="closeTag(item, index)">
                     <Close />
                 </el-icon>
-
 
             </li>
 
@@ -44,7 +43,6 @@
     import { useRouter } from "vue-router";
     import { computed } from "vue";
     import { useRoute } from "vue-router";
-    import { onMounted } from "vue";
 
     const route = useRoute();
     const router = useRouter();
@@ -97,6 +95,7 @@
             console.log("logout");
             localStorage.removeItem("token");
             localStorage.removeItem("userInfo");
+            localStorage.removeItem("RouterList");
             window.location.hash = "/";
         }
     };

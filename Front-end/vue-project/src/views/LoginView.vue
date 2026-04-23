@@ -107,18 +107,25 @@
 
 <script setup lang="ts">
 
-  import { reactive, ref } from 'vue'
+  import {reactive, ref ,computed,toRaw} from 'vue'
   import type { FormRules,FormInstance } from 'element-plus'
   import {getCode,userAuthentication,login} from '@/api/index'
   import {useRouter} from 'vue-router'
+  import {menuPermissions} from '@/api/index'
+  import {useRouterStore} from '@/stores/router'
 
-
+  const RouterStore = useRouterStore()
   const imgUrl = '/image/login-bg.jpeg'
   const formType = ref(0)
   const ruleFormRef = ref<FormInstance>()
   const router =useRouter()
 
 
+  const  routerList = computed(
+    () => { 
+      return RouterStore.routerList
+    } 
+  )
   const handChange = () => {
     formType.value = formType.value ? 0 : 1
   }
@@ -189,7 +196,6 @@
       getCode({
         tel: loginForm.userName
       }).then(res => { 
-        console.log(res)
         if(res.data.code === 20000) {
           ElMessage.success('验证码发送成功')
         } else {
@@ -215,12 +221,18 @@
           })
         } else {
           //登录
-         login(loginForm).then(res => {
+         login(loginForm).then(async res => {
               if(res.data.code === 10000) {
                 ElMessage.success('登录成功')
-                console.log(res.data.data.token)
                 window.localStorage.setItem('token',res.data.data.token)
                 window.localStorage.setItem('userInfo',JSON.stringify(res.data.data.userInfo))
+                await menuPermissions().then(res => {
+                  RouterStore.dynamicMenu(res.data.data)
+                  toRaw(routerList.value).forEach(item => {
+                    router.addRoute('main',item)
+                  })
+                  console.log(router.getRoutes())
+                })
                 router.push('/')
               } else {
                 ElMessage.error(res.data.msg )
