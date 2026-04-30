@@ -231,7 +231,6 @@
                   toRaw(routerList.value).forEach(item => {
                     router.addRoute('main',item)
                   })
-                  console.log(router.getRoutes())
                 })
                 router.push('/')
               } else {

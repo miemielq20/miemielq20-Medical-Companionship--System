@@ -1,13 +1,22 @@
 import { defineStore } from 'pinia'
-import { type MenuItem } from '@/types/user'
+import { type MenuItem } from '@/types/router'
+ import {type AsideMenuState} from "@/types/menu"
 
 export const useAsideStore = defineStore('isCollapse', {
-  state: () => {
+  state: (): AsideMenuState => {
     return {
-      asideCollapse: false,
-      selectMenu: <MenuItem[]>([])
+      // 侧边栏折叠状态
+      asideCollapse: false, 
+      // 菜单列表
+      selectMenu: <MenuItem[]>([]),
+      // 激活菜单的id
+      menuActive:'1-1'
     }
   },
+  persist: {
+     pick: ['selectMenu', 'menuActive'],
+  },
+  
   actions: {
     // 侧边栏折叠
     isCollapse() {
@@ -29,8 +38,11 @@ export const useAsideStore = defineStore('isCollapse', {
     closeMenu(index: number) {
       console.log(index);
       this.selectMenu.splice(index, 1);
+    },
+    // 菜单激活
+    updateMenuActive(payload: string) {
+      this.menuActive = payload
     }
-
   }
 })
 

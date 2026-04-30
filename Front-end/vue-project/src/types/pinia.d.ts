@@ -7,7 +7,7 @@ declare module 'pinia' {
       enabled?: boolean
       storage?: Storage
       key?: string
-      paths?: Array<keyof S>
+      pick?: Array<keyof S>
       serializer?: {
         serialize: (value: S) => string
         deserialize: (value: string) => S

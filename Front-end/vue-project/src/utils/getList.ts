@@ -1,5 +1,5 @@
 import { useRouterStore } from '@/stores/router'
-import { type MenuItem } from '@/types/user'
+import { type MenuItem } from '@/types/router'
 import router from '@/router'
 export default async function getDynamicRouter() {
     const routerStore =  useRouterStore()

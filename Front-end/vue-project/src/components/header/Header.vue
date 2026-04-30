@@ -25,8 +25,8 @@
         <div class="header-right">
             <el-dropdown  @command="handleCommand">
                 <span class="el-dropdown-link">
-                    <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-                    <div class="username"><span>admin</span></div>
+                    <el-avatar :src=" userInfo.avatar" />
+                    <div class="username"><span>{{ userInfo.name }}</span></div>
                 </span>
                 <template #dropdown >
                     <el-dropdown-menu>
@@ -49,6 +49,9 @@
     const asideStore = useAsideStore();
 
     const { selectMenu, isCollapse, closeMenu } = asideStore;
+    const userInfo = computed(() => {
+        return JSON.parse(localStorage.getItem("userInfo") as string);
+    });
     
 
     // 切换侧边栏

@@ -2,13 +2,28 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import LoginView from '@/views/LoginView.vue'
 import Layout from '@/views/Layout.vue'
 
+//动态路由加载函数
+const localData = localStorage.getItem('RouterList')
 const routes: RouteRecordRaw[] = [
-
   {
     path: '/',
     name: 'main',
     component: Layout,
     meta: { requiresAuth: true },
+    redirect: (to)=>{
+      // 有路由数据，根据路由数据进行跳转
+      if(localData){
+        const children = JSON.parse(localData).routerList[0].children 
+        // 有子路由，跳转到第一个子路由；没有子路由，跳转到对应的根路径
+        if(children && children.length > 0){
+          return { path: children[0].path }
+        }else{
+          return { path: JSON.parse(localData).routerList[0].meta.path }
+        }
+      }else{
+        return { path: '/' }
+      }
+    },
     children: [
       
       // {

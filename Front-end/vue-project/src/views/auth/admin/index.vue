@@ -1,5 +1,5 @@
 <template>
-    <panel-head />
+    <panel-head :route="route"/>
 
     <el-table :data="tableData.list" style="width: 100%">
         <el-table-column prop="id" label="id" />
@@ -63,12 +63,13 @@
 
     import { authAdmin, menuSelectlist,updateUser } from '@/api/index'
     import { ref, reactive, onMounted } from 'vue'
+    import { useRoute } from 'vue-router'
 
     import { type FormInstance } from 'element-plus'
     import { type PermissionGroup, type Permissions } from '@/types/permisson'
     import dayjs from 'dayjs'
 
-
+    const route = useRoute()
     // 弹窗
     const dialogTableVisible = ref(false)
 
@@ -112,13 +113,15 @@
     const getList = () => {
         authAdmin(paginnationData).then(res => {
             // 处理数据类型
-            const { list, total } = res.data.data as { list: Permissions[], total: number }
+            const { list, total } = res.data.data as { list: Permissions[], total: number}
             list.forEach(item => {
                 item.create_time = dayjs(item.create_time).format('YYYY-MM-DD')
-            })
+                    const data = JSON.parse(localStorage.userInfo );
+                    data.name =item.name;
+                    localStorage.userInfo = JSON.stringify(data);
+                    })
             tableData.list = list
             tableData.total = total
-
         })
     }
 
@@ -153,7 +156,7 @@
 
     const rulers = { 
         name:[{required: true, message: '请输入昵称', trigger: 'blur'}],
-        permissions_id:[{required: true, message: '请选择权限', trigger: 'blur'}]  // 修正字段名
+        permissions_id:[{required: true, message: '请选择权限', trigger: 'blur'}] 
     }
 
      //权限提交
@@ -184,6 +187,13 @@
         display: flex;
         align-items: center;
         gap: 5px;
+    }
+
+    .pagination-into {
+        width: 100%;
+        background-color: white;
+        display: flex;
+        justify-content: flex-end;
     }
 
 </style>

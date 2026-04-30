@@ -35,3 +35,21 @@ export type UpdateUserRequest = {
 export type MenuListRequest = AutAdminRequest
 
 
+//陪护员请求参数类型
+export type CompanionRequest = { 
+  create_time?: string,
+  id: number,
+  mobile: string,
+  name:string,
+  active:number
+  age: number,
+  avatar: string,
+  sex:string,
+}
+
+//陪护员列表请求参数类型
+export type CompanionListRequest = AutAdminRequest
+
+export type DeleteCompanionRequest = {
+  id: { id: number }[] 
+}

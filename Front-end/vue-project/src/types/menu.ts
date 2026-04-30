@@ -1,3 +1,11 @@
+import {type MenuItem} from "@/types/router";
+// 侧边栏状态类型
+export type AsideMenuState ={
+  asideCollapse: boolean;
+  selectMenu: MenuItem[];
+  menuActive: string; 
+}
+
 // 权限菜单
 export type MenuGroup = {
     id: number;
@@ -12,5 +20,10 @@ export type MenuList = {
     id: number,
     name: string,
     permissionName: string,
-
 };
+
+
+
+
+
+

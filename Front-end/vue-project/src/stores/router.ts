@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { type MenuItem } from '@/types/user'
+import { type MenuItem } from '@/types/router'
 
 export const useRouterStore = defineStore('RouterList', {
   state: () => {
@@ -11,7 +11,7 @@ export const useRouterStore = defineStore('RouterList', {
   actions: {
     dynamicMenu(data: MenuItem[]) {
         // 获取所有模块
-       const modules = import.meta.glob('../views/**//**/*.vue')
+       const modules = import.meta.glob('../views/**/*.vue')
        // 获取所有模块名称
        const routerSet=(router: MenuItem[])=>{
         // 遍历所有模块

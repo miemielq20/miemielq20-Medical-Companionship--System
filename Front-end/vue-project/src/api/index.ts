@@ -1,5 +1,6 @@
 import http from '@/utils/request'
-import {type CodeRequest,type LoginRequest, type MenuRequest, type MenuListRequest,type AutAdminRequest,type UpdateUserRequest,type MenuItem } from '@/types/user'
+import {type CodeRequest,type LoginRequest, type MenuRequest, type MenuListRequest,type AutAdminRequest,
+  type UpdateUserRequest ,type CompanionRequest,type CompanionListRequest,type DeleteCompanionRequest} from '@/types/api'
 
 
 // 发送验证码
@@ -49,7 +50,25 @@ export const updateUser=(data:UpdateUserRequest)=>{
   return http.post('/update/user',data)
 }
 
-//
+//用户菜单权限
 export const menuPermissions=()=>{
   return http.get(`/menu/permissions`)
+}
+
+//陪护师头像列表
+export const photoList=()=>{
+  return http.get(`/photo/list`)
+}
+
+//陪护师创建
+export const companion=(data:CompanionRequest)=>{
+  return http.post(`/companion`,data)
+}
+//陪护师列表
+export const companionList=(params:CompanionListRequest)=>{
+  return http.get(`/companion/list`,{params})
+}
+//陪护师删除
+export const deleteCompanion=(data:DeleteCompanionRequest)=>{
+  return http.post(`/delete/companion`,data)
 }

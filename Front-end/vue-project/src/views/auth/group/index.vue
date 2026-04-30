@@ -1,5 +1,5 @@
 <template>
-    <panel-head />
+    <panel-head :route="route"/>
     <div class="bts-into">
         <el-button type="primary" @click="open" :icon="Plus">添加 </el-button>
     </div>
@@ -43,6 +43,7 @@
 
 <script lang="ts" setup>
     import { reactive, ref, nextTick } from 'vue'
+    import { useRoute } from 'vue-router'
     import { userGetMenu, userSetmenu, menuList, } from '@/api/index'
     import { onMounted } from 'vue'
     import { Plus } from '@element-plus/icons-vue'
@@ -52,6 +53,7 @@
 
     import PanelHead from '@/components/panel/PanelHead.vue'
 
+    const route = useRoute()
     // 弹窗
     const dialogTableVisible = ref(false)
 
